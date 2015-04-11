@@ -8,5 +8,20 @@ len(0, []).
 len(N, [_ | T]) :- len(K, T), N is K + 1.
 
 % 05
-rev([], []).
-rev(O, [H | T]) :- rev(T2, T), O is [T2 | [H]].
+revappend(Y, [], Y).
+revappend(Zs, [X|Xs], Ys) :- revappend(Zs, Xs, [X|Ys]). % Reverse by appending the HEAD of Xs into Ys. Ys should be empty
+
+rev(Zs, Xs) :- revappend(Zs, Xs, []).
+
+% 06
+palindrome(L) :- rev(L, L).
+
+% 07
+my_flatten(X, [X]) :- \+ is_list(X).
+my_flatten([], []).
+my_flatten([X | Xs], R) :- my_flatten(X, Y), my_flatten(Xs, Ys), append(Y, Ys, R).
+
+% 08
+compress([], []).
+compress([A, A | T], R) :- compress([A | T], R).
+compress([A | T], [A | T2]) :- compress(T, T2).
