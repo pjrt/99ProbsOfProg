@@ -34,3 +34,10 @@ transfer(Xs, Ys, Zs, R) :- append(Zs, [Ys], ZYs), transfer(Xs, [], ZYs, R).
 
 pack([], []).
 pack(Xs, R) :- transfer(Xs, [], [], R).
+
+% 10
+count_lift([], []).
+count_lift([[ X | Xs] | Res], [[X, N] | RT]) :- len(N2, Xs), N is N2 + 1, count_lift(Res, RT).
+
+encode([], []).
+encode(Xs, R) :- pack(Xs, R2), count_lift(R2, R).
