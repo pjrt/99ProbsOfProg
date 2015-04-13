@@ -25,3 +25,12 @@ my_flatten([X | Xs], R) :- my_flatten(X, Y), my_flatten(Xs, Ys), append(Y, Ys, R
 compress([], []).
 compress([A, A | T], R) :- compress([A | T], R).
 compress([A | T], [A | T2]) :- compress(T, T2).
+
+% 09
+transfer([], [], R, R).
+transfer([X | Xs], [], Zs, R) :- transfer(Xs, [X], Zs, R).
+transfer([X | Xs], [X | Ys], Zs, R) :- transfer(Xs, [X, X | Ys], Zs, R).
+transfer(Xs, Ys, Zs, R) :- append(Zs, [Ys], ZYs), transfer(Xs, [], ZYs, R).
+
+pack([], []).
+pack(Xs, R) :- transfer(Xs, [], [], R).
