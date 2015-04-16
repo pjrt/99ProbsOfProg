@@ -41,3 +41,11 @@ count_lift([[X | Xs] | Res], [[X, N] | RT]) :- len(N2, Xs), N is N2 + 1, count_l
 
 encode([], []).
 encode(Xs, R) :- pack(Xs, R2), count_lift(R2, R).
+
+% 11
+reduce_one([], []).
+reduce_one([[X, 1] | Xs], [X | T]) :- reduce_one(Xs, T).
+reduce_one([X | Xs], [X | R]) :- reduce_one(Xs, R).
+
+encode_modifed([], []).
+encode_modifed(Xs, R) :- encode(Xs, R2), reduce_one(R2, R).
