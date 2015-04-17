@@ -49,3 +49,12 @@ reduce_one([X | Xs], [X | R]) :- reduce_one(Xs, R).
 
 encode_modifed([], []).
 encode_modifed(Xs, R) :- encode(Xs, R2), reduce_one(R2, R).
+
+% 12
+replicate(X, 0, []).
+replicate(X, 1, [X]).
+replicate(X, N, [X | R]) :- N2 is N - 1, replicate(X, N2, R).
+
+expand([], []).
+expand([[X, N] | Xs], [Ys | R]) :- replicate(X, N, Ys), expand(Xs, R).
+expand([X | Xs], [X | R]) :- expand(Xs, R).
