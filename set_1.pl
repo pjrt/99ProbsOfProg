@@ -1,3 +1,12 @@
+% https://sites.google.com/site/prologsite/prolog-problems/1
+% 01
+
+my_last(X, [X]).
+my_last(X, [_ | T]) :- my_last(X, T).
+
+% 02
+last_but_one(X, [X, _]).
+last_but_one(X, [_ | T]) :- last_but_one(X, T).
 
 % 03
 element_at(X, [X | _], 1).
@@ -56,5 +65,30 @@ replicate(X, 1, [X]).
 replicate(X, N, [X | R]) :- N2 is N - 1, replicate(X, N2, R).
 
 expand([], []).
-expand([[X, N] | Xs], [Ys | R]) :- replicate(X, N, Ys), expand(Xs, R).
+expand([[X, N] | Xs], As) :- replicate(X, N, Ys), expand(Xs, R), append(Ys, R, As).
 expand([X | Xs], [X | R]) :- expand(Xs, R).
+
+% 14
+dupli([], []).
+dupli([X | T], [X, X | R]) :- dupl(T, R).
+
+% 15
+dupli([X], N, R) :- replicate(X, N, R).
+dupli([X | T], N, R) :- replicate(X, N, R2), dupli(T, N, R3), append(R2, R3, R).
+
+% 16
+split_at(X, 0, [], X).
+split_at([], _, [], []).
+split_at([X | T], 1, [X], T).
+split_at([X | T], N, L, R) :-
+    N2 is N - 1
+  , split_at(T, N2, L2, R)
+  , append([X], L2, L).
+
+drop([], N, []).
+drop(X, 0, X).
+drop(Xs, N, Res) :-
+    split_at(Xs, N - 1, L, HR)
+  , split_at(HR, 1, _, R)
+  , drop(R, N, R2)
+  , append(L, R2, Res).
